@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NeuronsTask.Funcs;
 
@@ -12,16 +13,21 @@ namespace NeuronsTask.Neurons
         public double _bias;
         private double[] _weights;
         private double[] _input;
+        Random rand;
 
         public Neuron(double[] input)
         {
             _input = input;
             _weights = new double[input.Length];
 
-            Random rand = new Random();
+            rand = new Random();
 
-            for (int i = 0; i < _weights.Length; i++)
+            for (int i = 0; i < _weights.Length; i++) 
+            {
+                Thread.Sleep(10);
                 _weights[i] = rand.NextDouble() + 1;
+            }
+                
             _bias = rand.NextDouble()+1;
         }
 
@@ -33,7 +39,7 @@ namespace NeuronsTask.Neurons
                 sum += _input[i] * _weights[i];
             sum += _bias;
 
-            return new Functions().Sigmoid(sum); 
+            return new Functions().Linear(sum); 
         }
 
         public string GetWeights() 

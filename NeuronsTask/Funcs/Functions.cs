@@ -8,6 +8,10 @@ namespace NeuronsTask.Funcs
 {
     internal class Functions
     {
+        public double Linear(double x)
+        {
+            return x;
+        }
         public double Sigmoid(double x) 
         {
             return 1 / (1 + Math.Exp(-x));

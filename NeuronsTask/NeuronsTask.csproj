@@ -53,6 +53,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Funcs\Functions.cs" />
+    <Compile Include="Neurons\LayerNetwork.cs" />
     <Compile Include="Neurons\Neuron.cs" />
     <Compile Include="Neurons\NeuronsNetwork.cs" />
     <Compile Include="Program.cs" />

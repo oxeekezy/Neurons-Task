@@ -10,15 +10,17 @@ namespace NeuronsTask.Neurons
     {
         public double[] oldValues;
         private int _count;
+        private double[] inputs = new double[] {0.7,0.3,1 };
 
         public NeuronsNetwork(int count) 
         {
             _count = count;
             List<Neuron> neurons = new List<Neuron>();
 
-            neurons.Add(new Neuron(new double[] { 5, 8, 10 }));
-            neurons.Add(new Neuron(new double[] { 23, 18, 9}));
-            neurons.Add(new Neuron(new double[] { 100090, 23423423, 1231212 }));
+            for (int i = 0; i < count; i++)
+            {
+                neurons.Add(new Neuron(inputs));
+            }
 
             oldValues = new double[neurons.Count];
             oldValues = neurons.Select(n => n.Calculation()).ToArray();
