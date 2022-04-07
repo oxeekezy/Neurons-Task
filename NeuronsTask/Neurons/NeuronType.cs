@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace NeuronsTask.Neurons
 {
-    internal class LayerNetwork
+    public enum NeuronType
     {
-        public List<NeuronsNetwork> Layers;
-
-        public LayerNetwork() 
-        {
-            
-        }
+        Input = 0,
+        Normal = 1,
+        Output = 2
     }
 }

@@ -8,49 +8,102 @@ using NeuronsTask.Funcs;
 
 namespace NeuronsTask.Neurons
 {
-    internal class Neuron
+    public class Neuron
     {
-        public double _bias;
-        private double[] _weights;
-        private double[] _input;
-        Random rand;
+        public List<double> Weights { get; }
+        public List<double> Inputs { get; }
+        public NeuronType NeuronType { get; }
+        public double Output { get; private set; }
+        public double Delta { get; private set; }
+        public string Test;
 
-        public Neuron(double[] input)
+        public Neuron(int inputCount, NeuronType type = NeuronType.Normal)
         {
-            _input = input;
-            _weights = new double[input.Length];
+            NeuronType = type;
+            Weights = new List<double>();
+            Inputs = new List<double>();
 
-            rand = new Random();
+            InitRandomWeights(inputCount);
 
-            for (int i = 0; i < _weights.Length; i++) 
+        }
+
+        private void InitRandomWeights(int inputCount)
+        {
+            var rnd = new Random();
+            for (int i = 0; i < inputCount; i++)
             {
-                Thread.Sleep(10);
-                _weights[i] = rand.NextDouble() + 1;
+                if (NeuronType == NeuronType.Input)
+                    Weights.Add(1);
+                else
+                    Weights.Add(rnd.NextDouble());
+                Inputs.Add(0);
             }
-                
-            _bias = rand.NextDouble()+1;
         }
 
-        public double Calculation()
+        public void SetFakeWeights(params double[] weights) 
         {
-            double sum = 0;
-
-            for(int i=0; i<_input.Length; i++)
-                sum += _input[i] * _weights[i];
-            sum += _bias;
-
-            return new Functions().Linear(sum); 
-        }
-
-        public string GetWeights() 
-        {
-            string w = string.Empty;
-            for (int i = 0; i < _weights.Length; i++) 
+            for (int i = 0; i < weights.Length; i++)
             {
-                w+=_weights[i]+" | ";
+                Weights[i] = weights[i];
             }
-            return w;
         }
 
-    }
+        public double FeedForward(List<double> inputs) 
+        {
+            for (int i = 0; i < inputs.Count; i++)
+            {
+                Inputs[i] = inputs[i];
+            }
+            var sum = 0.0;
+
+            for (int i = 0; i < inputs.Count; i++) 
+            {
+                sum += inputs[i] * Weights[i];
+            }
+
+
+            //TODO: switch to linear!
+            if(NeuronType!=NeuronType.Input)
+                Output = Sigmoid(sum);
+            else
+                Output = sum;
+
+            return Output;
+
+        }
+
+        private double Sigmoid(double x)
+        {
+            //return 1.0 / (1.0 + Math.Exp(-x));
+            //return x;
+            return Math.Sqrt(x);
+        }
+
+        private double SigmoidDx(double x)
+        {
+            //return Sigmoid(x) / (1 - Sigmoid(x));
+            return 1/2*Math.Sqrt(x);
+        }
+
+        public void Learn(double error, double learningSpeed) 
+        {
+            if (NeuronType == NeuronType.Input) 
+            {
+                return;
+            }
+
+            //TODO: switch to linear!
+            //Delta = error * SigmoidDx(Output);!
+            Delta = error * SigmoidDx(Output);
+
+            for (int i = 0; i < Weights.Count; i++)
+                Weights[i] = Weights[i] - Inputs[i] * Delta * learningSpeed;
+
+        }
+
+        public override string ToString()
+        {
+            return Output.ToString();
+        }
+    }    
 }

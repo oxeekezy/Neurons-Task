@@ -18,7 +18,7 @@ namespace NeuronsTask
         {
             InitializeComponent();
         }
-
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             //Neuron n = new Neuron(new double[] {5,8,10});
@@ -40,17 +40,17 @@ namespace NeuronsTask
 
         private void addNeuron_Click(object sender, EventArgs e)
         {
-            NeuronsNetwork nn = new NeuronsNetwork((int)neuronsCount.Value);
-            string n = string.Empty;
-            double[] newV = nn.UpdateNeuronsNetwork(nn.oldValues);
+            
+        }
 
+        private void GetUpdate() 
+        {
+            
+        }
 
-
-            for (int i = 0; i < nn.oldValues.Length; i++)
-                n += $"[neuron {i}] old: {nn.oldValues[i]} \t new: {newV[i]}\n";
-
-
-            richTextBox1.Text = n;
+        private void updateNetwork_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
